@@ -25,6 +25,18 @@
 */
 
 const followersArray = ['tetondan','dustinmyers','justsml','luishrd','bigknell'];
+axios.get('https://api.github.com/users/algenis08/followers').then(response => {
+  console.log(response.data);
+  for (info of response.data) {
+    axios.get('https://api.github.com/users/' + info.login).then(response => {
+      const followerCard = userCard(response.data)
+      addCard.appendChild(followerCard)
+    })
+  }
+})
+.catch(err => {
+  console.log(err);
+})
 
   
 /* Step 3: Create a function that accepts a single object as its only argument,
@@ -117,14 +129,4 @@ axios.get('https://api.github.com/users/algenis08')
 
 
   
- followersArray.forEach(x => {
-  let promise = axios.get(`https://api.github.com/users/${object.followers}`)
-    .then(result => {
-      let newFollowers = componentCreator(result);
-      cards.appendChild(newFollowers);
-    })
-    .catch(err => {
-      console.log(err);
-    })
-
-})
+ 
