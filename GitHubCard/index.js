@@ -24,8 +24,9 @@
           user, and adding that card to the DOM.
 */
 
-const followersArray = [];
+const followersArray = ['tetondan','dustinmyers','justsml','luishrd','bigknell'];
 
+  
 /* Step 3: Create a function that accepts a single object as its only argument,
           Using DOM methods and properties, create a component that will return the following DOM element:
 
@@ -53,3 +54,77 @@ const followersArray = [];
   luishrd
   bigknell
 */
+
+function githubCard (object){
+  const gitCard = document.createElement('div');
+  const gitImg = document.createElement('img' );
+  const gitCardInfo = document.createElement('div');
+  const gitName = document.createElement('h3');
+  const gitUserName = document.createElement('p');
+  const gitLocation = document.createElement('p');
+  const gitProfile = document.createElement('p');
+  const gitProfileLink = document.createElement('a');
+  const gitFollowers = document.createElement('p');
+  const gitFollowing = document.createElement('p');
+  const gitBio = document.createElement('p');
+
+
+// 
+  gitCard.classList.add('card');
+  gitCardInfo.classList.add('card-info');
+  gitName.classList.add('name');
+  gitUserName.classList.add('username');
+
+  // 
+  gitCard.append(gitImg);
+  gitCard.append(gitCardInfo);
+  gitCardInfo.append(gitName);
+  gitCardInfo.append(gitUserName);
+  gitCardInfo.append(gitLocation);
+  gitCardInfo.append(gitProfile);
+  gitProfile.append(gitProfileLink);
+  gitCardInfo.append(gitFollowers);
+  gitCardInfo.append(gitFollowing);
+  gitCardInfo.append(gitBio);
+
+// 
+gitImg.src = object.avatar_url;
+gitName.textContent = object.name;
+gitUserName.textContent = object.login;
+gitLocation.textContent = `Location: ${object.location}`;
+gitProfileLink.href = object.html_url;
+gitProfileLink.textContent = object.html_url;
+gitProfile.textContent = "Profile:";
+gitFollowers.textContent = `Followers: ${object.followers}`;
+gitFollowing.textContent = `Following: ${object.following}`;
+gitBio.textContent = `Bio: ${object.bio}`;
+
+
+// 
+return gitCard;
+}
+
+
+const gitCards = document.querySelector('.cards');
+
+axios.get('https://api.github.com/users/algenis08')
+.then(response => {
+  gitCards.append(githubCard(response.data))
+  })
+  .catch(error => {
+    console.log('NO NO NO!', error)
+  })
+
+
+  
+ followersArray.forEach(x => {
+  let promise = axios.get(`https://api.github.com/users/${object.followers}`)
+    .then(result => {
+      let newFollowers = componentCreator(result);
+      cards.appendChild(newFollowers);
+    })
+    .catch(err => {
+      console.log(err);
+    })
+
+})
